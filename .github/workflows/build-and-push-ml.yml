@@ -59,6 +59,7 @@ jobs:
           sed -i "s|name: .*|$UNIQUE_JOB_NAME|g" $MANIFEST_FILE
 
       - name: Commit and push changes
+        working-directory: jobs
         run: |
           git config --global user.name "GitHub Actions Bot"
           git config --global user.email "actions-bot@github.com"

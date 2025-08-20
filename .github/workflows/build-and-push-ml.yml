@@ -1,0 +1,69 @@
+name: 'CI: Build, Push, and Trigger ML Training Job'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-push-trigger:
+    name: 'Build, Push and Trigger Training Job'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Application Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # --- Build (Simplified for Python/Docker) ---
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/mlops-model-train:${{ github.sha }}
+
+      # --- Trigger Argo CD by updating the GitOps repo ---
+
+      - name: Checkout GitOps Repo
+        uses: actions/checkout@v4
+        with:
+          repository: GreatSoravit/aws-argocd-explore
+		  
+		  # Use the PAT to get push access
+          token: ${{ secrets.GITOPS_REPO_TOKEN }}	  
+
+          path: .
+
+      - name: Update Kubernetes Job Manifest
+        run: |
+          # Define new image and unique job name
+          NEW_IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/mlops-model-train:${{ github.sha }}"
+          UNIQUE_JOB_NAME="colon-cancer-training-job-${{ github.sha }}"
+          MANIFEST_FILE="jobs/training-job.yaml"
+
+          # Use sed to find and replace the image tag
+          sed -i "s|image: .*|$NEW_IMAGE|g" $MANIFEST_FILE
+
+          # Use sed to replace the job name to ensure a new job is created
+          sed -i "s|name: .*|$UNIQUE_JOB_NAME|g" $MANIFEST_FILE
+
+      - name: Commit and push changes
+        working-directory: gitops_repo # Run git commands in the checked-out repo
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions-bot@github.com"
+          git add training-job.yaml
+          # Commit only if there are changes
+          git diff --staged --quiet || git commit -m "Trigger training job for commit ${{ github.sha }}"
+          git push

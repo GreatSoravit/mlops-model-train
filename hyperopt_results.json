@@ -1,0 +1,16 @@
+{
+  "best_params": {
+    "lr": 0.0017660974448643258,
+    "batch_size": 32,
+    "dropout_rate": 0.507214865797806,
+    "weight_decay": 0.0006264278041381329,
+    "optimizer": "adamw",
+    "scheduler": "cosine",
+    "use_deeper_network": true,
+    "num_conv_blocks": 5
+  },
+  "best_value": 73.28767123287672,
+  "best_trial": 10,
+  "n_trials": 1,
+  "study_name": "no-name-f55f1bfd-3b09-4360-aefe-839daf4aff3a"
+}

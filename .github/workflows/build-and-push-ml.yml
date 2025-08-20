@@ -39,8 +39,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: GreatSoravit/aws-argocd-explore
-		  
-		  # Use the PAT to get push access
+          
+          # Use the PAT to get push access
           token: ${{ secrets.GITOPS_REPO_TOKEN }}	  
 
           path: .

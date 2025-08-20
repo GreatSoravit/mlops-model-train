@@ -23,6 +23,7 @@ RUN mkdir -p /app/data/train /app/models /app/outputs /app/logs
 # Copy scripts
 COPY requirements.txt .
 COPY train.py .
+COPY training_script.sh .
 COPY data/train/train /app/data/train/
 COPY data/train.csv /app/data/
 COPY hyperopt_results.json /app/outputs/

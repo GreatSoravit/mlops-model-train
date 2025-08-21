@@ -1,5 +1,6 @@
 # Use official PyTorch image with CUDA support
-FROM pytorch/pytorch:2.1.2-cuda12.1-cudnn8-runtime
+#FROM pytorch/pytorch:2.1.2-cuda12.1-cudnn8-runtime
+FROM nvidia/cuda:12.4.1-cudnn-runtime-ubuntu22.04
 
 # Set working directory 
 WORKDIR /app

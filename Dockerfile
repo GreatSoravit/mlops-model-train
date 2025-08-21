@@ -30,7 +30,7 @@ COPY data/train.csv /app/data/
 COPY hyperopt_results.json /app/outputs/
 
 # Install the GPU version of PyTorch directly
-#RUN python3 -m pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
+RUN python3 -m pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt

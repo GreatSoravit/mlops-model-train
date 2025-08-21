@@ -2,7 +2,7 @@
 FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-devel
 #FROM pytorch/pytorch:2.1.2-cuda12.1-cudnn8-runtime
 
-# Set working directory 
+# Set working directory
 WORKDIR /app
 
 # Set environment variables

@@ -11,12 +11,15 @@ echo "=========================================="
 
 # Function to run training
 run_training() {
-    echo "Starting training..."
+	local epochs=$1
+	local seed=$2
+    echo "Training for $epochs epochs with seed $seed"
     python train.py \
         --train_csv /app/data/train.csv \
         --train_dir /app/data/train/ \
         --model_path /app/models/best_colon_cancer_model.pth \
-		--epochs 20 \
+		--epochs "$epochs" \
+		--seed "$seed"
         --config /app/outputs/hyperopt_results.json # Assumes config file might exist
 }
 
@@ -60,6 +63,8 @@ except FileNotFoundError:
 TRAIN=false
 REPORT=false
 ALL=false
+EPOCHS=50
+SEED=42
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -67,6 +72,22 @@ while [[ $# -gt 0 ]]; do
             TRAIN=true
             shift
             ;;
+		--epochs)
+			if [[ -z $2 || $2 == --* ]]; then
+				echo "Error: --epochs requires a numeric argument"
+				exit 1
+		    fi
+			EPOCHS=$2
+			shift 2
+			;;
+		--seed)
+			if [[ -z $2 || $2 == --* ]]; then
+				echo "Error: --epochs requires a numeric argument"
+				exit 1
+		    fi
+			SEED=$2
+			shift 2
+			;;
         --report)
             REPORT=true
             shift
@@ -76,7 +97,7 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --help)
-            echo "Usage: [ --train | --report | --all | --help ]"
+            echo "Usage: [ --train | -epochs N | --seed N | --report | --all | --help ]"
             exit 0
             ;;
         *)
@@ -92,7 +113,7 @@ if [ "$TRAIN" = false ] && [ "$REPORT" = false ] && [ "$ALL" = false ]; then
 fi
 
 if [ "$ALL" = true ] || [ "$TRAIN" = true ]; then
-    run_training
+    run_training "$EPOCHS" "$SEED"
 fi
 
 if [ "$ALL" = true ] || [ "$REPORT" = true ]; then

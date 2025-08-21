@@ -1,5 +1,6 @@
 # Use official PyTorch image with CUDA support
-FROM pytorch/pytorch:2.1.2-cuda12.1-cudnn8-runtime
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-devel
+#FROM pytorch/pytorch:2.1.2-cuda12.1-cudnn8-runtime
 
 # Set working directory 
 WORKDIR /app
@@ -7,7 +8,7 @@ WORKDIR /app
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
 ENV DEBIAN_FRONTEND=noninteractive
-#ENV TORCH_CUDA_ARCH_LIST="6.0;6.1;7.0;7.5;8.0;8.6+PTX"
+ENV TORCH_CUDA_ARCH_LIST="6.0;6.1;7.0;7.5;8.0;8.6+PTX"
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \

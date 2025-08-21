@@ -13,7 +13,18 @@ jobs:
     steps:
       - name: Checkout Application Repo
         uses: actions/checkout@v4
-
+        
+      - name: Free up disk space on runner
+        run: |
+          echo "Initial disk space:"
+          df -h
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          echo "Disk space after cleanup:"
+          df -h
+          
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 

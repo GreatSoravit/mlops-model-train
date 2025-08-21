@@ -19,7 +19,7 @@ run_training() {
         --train_dir /app/data/train/ \
         --model_path /app/models/best_colon_cancer_model.pth \
 		--epochs "$epochs" \
-		--seed "$seed"
+		--seed "$seed" \
         --config /app/outputs/hyperopt_results.json # Assumes config file might exist
 }
 

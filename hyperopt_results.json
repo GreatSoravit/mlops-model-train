@@ -1,16 +1,16 @@
 {
   "best_params": {
-    "lr": 0.0017660974448643258,
-    "batch_size": 32,
-    "dropout_rate": 0.507214865797806,
-    "weight_decay": 0.0006264278041381329,
+    "lr": 0.000602978988737004,
+    "batch_size": 64,
+    "dropout_rate": 0.3924890221233456,
+    "weight_decay": 1.0177899920943946e-05,
     "optimizer": "adamw",
-    "scheduler": "cosine",
+    "scheduler": "none",
     "use_deeper_network": true,
-    "num_conv_blocks": 5
+    "num_conv_blocks": 4
   },
-  "best_value": 73.28767123287672,
-  "best_trial": 10,
-  "n_trials": 1,
-  "study_name": "no-name-f55f1bfd-3b09-4360-aefe-839daf4aff3a"
+  "best_value": 74.42922374429224,
+  "best_trial": 19,
+  "n_trials": 20,
+  "study_name": "no-name-4541683e-20c8-47c1-bafb-465135dc4378"
 }

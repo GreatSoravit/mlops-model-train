@@ -67,7 +67,7 @@ jobs:
           sed -i "s|^\s*name: colon-cancer-training-job-.*|  name: ${UNIQUE_JOB_NAME}|g" "$MANIFEST_FILE"
           
           # Use sed to find and replace the image tag
-          sed -i "/name: training-container/{n;s|^\s*image:.*|        image: ${NEW_IMAGE}|}" "$MANIFEST_FILE"
+          sed -i '/name: training-container/,/image:/s|^\s*image:.*|        image: '"${NEW_IMAGE}"'|' "$MANIFEST_FILE"
 
       - name: Commit and push changes
         working-directory: jobs

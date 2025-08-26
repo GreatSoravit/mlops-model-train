@@ -60,14 +60,14 @@ jobs:
         run: |
           # Define new image and unique job name
           NEW_IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/mlops-model-train:${{ github.sha }}"
-          UNIQUE_JOB_NAME="colon-cancer-training-job-${{ github.sha }}"
+          UNIQUE_JOB_NAME="colon-training-job-${{ github.sha }}"
           MANIFEST_FILE="jobs/training-job.yaml"
 
           # Use sed to replace the job name to ensure a new job is created
-          sed -i "s|^\s*name: colon-cancer-training-job-.*|  name: ${UNIQUE_JOB_NAME}|g" "$MANIFEST_FILE"
+          sed -i -E "s|^(\s*name:\s*)colon-training-job-.*|\1${UNIQUE_JOB_NAME}|" "$MANIFEST_FILE"
           
           # Use sed to find and replace the image tag
-          sed -i '/name: training-container/,/image:/s|^\s*image:.*|        image: '"${NEW_IMAGE}"'|' "$MANIFEST_FILE"
+          sed -i -E '/name: training-container/,/image:/ s|^(\s*image:\s*).*|\1'"${NEW_IMAGE}"'|' "$MANIFEST_FILE"
 
       - name: Commit and push changes
         working-directory: jobs

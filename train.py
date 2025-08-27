@@ -488,9 +488,9 @@ def train_model(config: Dict):
     
     return model, history
 
-def plot_training_history(outputs_path: str):
+def plot_training_history(logs_path: str):
     """Plot training history"""
-    with open(outputs_path, 'r') as f:
+    with open(logs_path, 'r') as f:
         history = json.load(f)
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
@@ -515,7 +515,7 @@ def plot_training_history(outputs_path: str):
     ax2.grid(True)
     
     plt.tight_layout()
-    plt.savefig('training_history.png', dpi=300, bbox_inches='tight')
+    plt.savefig(config['outputs_path'], dpi=300, bbox_inches='tight')
     plt.show()
 
 def main():
@@ -585,7 +585,7 @@ def main():
     model, history = train_model(config)
     
     # Plot results
-    plot_training_history(config['outputs_path'])
+    plot_training_history(config['logs_path'])
     
     logger.info("Training completed successfully!")
 

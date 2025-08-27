@@ -534,6 +534,7 @@ def main():
     parser.add_argument('--gamma', type=float, default=0.5, help='Gamma')
     parser.add_argument('--seed', type=int, default=42, help='Random seed')
     parser.add_argument('--model_path', type=str, default='models/best_colon_cancer_model.pth', help='Model save path')
+    parser.add_argument('--history_path', type=str, default='outputs/training_history.json', help='Training log save path')
     
     parser.add_argument('--config', type=str, default=None, help="Optional path to JSON config file")
      
@@ -571,7 +572,7 @@ def main():
         'num_workers': 8,
         'log_interval': 5,
         'model_path': args.model_path,
-        'history_path': 'outputs/training_history.json'
+        'history_path': args.history_path
     }
     
     logger.info("Starting training with configuration:")

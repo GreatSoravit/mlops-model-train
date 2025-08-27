@@ -585,7 +585,7 @@ def main():
     model, history = train_model(config)
     
     # Plot results
-    plot_training_history(config['logs_path'])
+    plot_training_history(config)
     
     logger.info("Training completed successfully!")
 

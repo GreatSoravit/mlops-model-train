@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     cmake \
     unzip \
     libgl1 \
+	curl \
+	unzip
     && rm -rf /var/lib/apt/lists/*
 
 # Create directories for data and models
@@ -33,7 +35,9 @@ COPY hyperopt_results.json /app/outputs/
 #RUN python3 -m pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
 
 # Install AWS CLI
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install
 	
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt

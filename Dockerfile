@@ -32,6 +32,9 @@ COPY hyperopt_results.json /app/outputs/
 # Install the GPU version of PyTorch directly
 #RUN python3 -m pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
 
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install
+	
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 

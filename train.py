@@ -481,16 +481,16 @@ def train_model(config: Dict):
         'best_val_acc': best_val_acc
     }
     
-    with open(config['history_path'], 'w') as f:
+    with open(config['logs_path'], 'w') as f:
         json.dump(history, f, indent=2)
     
     logger.info(f"Training completed. Best validation accuracy: {best_val_acc:.2f}%")
     
     return model, history
 
-def plot_training_history(history_path: str):
+def plot_training_history(outputs_path: str):
     """Plot training history"""
-    with open(history_path, 'r') as f:
+    with open(outputs_path, 'r') as f:
         history = json.load(f)
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
@@ -534,7 +534,8 @@ def main():
     parser.add_argument('--gamma', type=float, default=0.5, help='Gamma')
     parser.add_argument('--seed', type=int, default=42, help='Random seed')
     parser.add_argument('--model_path', type=str, default='models/best_colon_cancer_model.pth', help='Model save path')
-    parser.add_argument('--history_path', type=str, default='outputs/training_history.json', help='Training log save path')
+    parser.add_argument('--logs_path', type=str, default='logs/training_history.json', help='Training log save path')
+    parser.add_argument('--outputs_path', type=str, default='outputs/training_history.png', help='Training log save path')
     
     parser.add_argument('--config', type=str, default=None, help="Optional path to JSON config file")
      
@@ -572,7 +573,8 @@ def main():
         'num_workers': 8,
         'log_interval': 5,
         'model_path': args.model_path,
-        'history_path': args.history_path
+        'logs_path': args.logs_path,
+        'outputs_path': args.outputs_path
     }
     
     logger.info("Starting training with configuration:")
@@ -583,7 +585,7 @@ def main():
     model, history = train_model(config)
     
     # Plot results
-    plot_training_history(config['history_path'])
+    plot_training_history(config['outputs_path'])
     
     logger.info("Training completed successfully!")
 

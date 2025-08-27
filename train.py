@@ -488,9 +488,9 @@ def train_model(config: Dict):
     
     return model, history
 
-def plot_training_history(logs_path: str):
+def plot_training_history(config: Dict):
     """Plot training history"""
-    with open(logs_path, 'r') as f:
+    with open(config['logs_path'], 'r') as f:
         history = json.load(f)
     
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
